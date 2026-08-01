@@ -1,7 +1,7 @@
 -- ============================================================================
 -- BANCO BANQUITO V2 - CORE ADMIN SERVICE
 -- Modelo fisico MySQL 8.4 LTS
--- Base: banquito_core_admin_db
+-- Base: core_administrador_db
 -- Proposito: configuracion bancaria, sucursales, feriados, ventanas operativas,
 -- catalogos de cuenta/transaccion, instituciones financieras y perfiles internos.
 -- El tarifario de pagos masivos NO vive en Core; pertenece a Switch Facturacion.

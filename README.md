@@ -99,7 +99,7 @@ para validar sucursales, subtipos de cuenta, subtipos de transacción, parámetr
 ## Base de datos
 
 - Motor: MySQL 8.4 LTS.
-- Base: `banquito_core_admin_db`.
+- Base: `core_administrador_db`.
 - Puerto local actual en infraestructura: `33062`.
 - SQL de referencia: `docs/database/02_core_admin_db.sql`.
 
