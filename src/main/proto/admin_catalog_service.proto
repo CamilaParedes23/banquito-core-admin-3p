@@ -64,6 +64,7 @@ message FinancialInstitutionResponse {
   string name = 2;
   bool banquito = 3;
   string status = 4;
+  string account_prefix = 5;
 }
 
 message AccountSubtypeResponse {

@@ -340,7 +340,7 @@ class AdminControllerTest {
     // Tests para Instituciones Financieras
     @Test
     void testListFinancialInstitutions_SinStatus_RetornaTodas() {
-        FinancialInstitutionResponse response = new FinancialInstitutionResponse("123456789", "Banco Test", false, "ACTIVA");
+        FinancialInstitutionResponse response = new FinancialInstitutionResponse("123456789", "Banco Test", "10101", false, "ACTIVA");
         when(adminService.listarInstituciones(null)).thenReturn(List.of(response));
 
         List<FinancialInstitutionResponse> result = adminController.listFinancialInstitutions(null);
@@ -352,7 +352,7 @@ class AdminControllerTest {
 
     @Test
     void testGetFinancialInstitution_RoutingCodeValido_RetornaInstitucion() {
-        FinancialInstitutionResponse response = new FinancialInstitutionResponse("123456789", "Banco Test", false, "ACTIVA");
+        FinancialInstitutionResponse response = new FinancialInstitutionResponse("123456789", "Banco Test", "10101", false, "ACTIVA");
         when(adminService.obtenerInstitucion("123456789")).thenReturn(response);
 
         FinancialInstitutionResponse result = adminController.getFinancialInstitution("123456789");
@@ -363,8 +363,8 @@ class AdminControllerTest {
 
     @Test
     void testCreateFinancialInstitution_DatosValidos_RetornaCreated() {
-        FinancialInstitutionResponse response = new FinancialInstitutionResponse("123456789", "Banco Test", false, "ACTIVA");
-        FinancialInstitutionRequest request = new FinancialInstitutionRequest("123456789", "Banco Test", false, "ACTIVA");
+        FinancialInstitutionResponse response = new FinancialInstitutionResponse("123456789", "Banco Test", "10101", false, "ACTIVA");
+        FinancialInstitutionRequest request = new FinancialInstitutionRequest("123456789", "Banco Test", "10101", false, "ACTIVA");
         when(adminService.crearInstitucion(request, null)).thenReturn(response);
 
         ResponseEntity<FinancialInstitutionResponse> result = adminController.createFinancialInstitution(request, null);

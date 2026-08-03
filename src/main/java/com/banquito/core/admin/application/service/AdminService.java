@@ -213,7 +213,7 @@ public class AdminService {
     @Transactional
     public FinancialInstitutionResponse crearInstitucion(FinancialInstitutionRequest request, String actorUuid) {
         if (institucionRepository.existsByRoutingCode(request.routingCode())) throw new BusinessException("ADMIN_INSTITUTION_DUPLICATED", "Ya existe la institución financiera indicada", HttpStatus.CONFLICT);
-        InstitucionFinanciera institucion = institucionRepository.save(InstitucionFinanciera.crear(request.routingCode(), request.name(), request.banquito()));
+        InstitucionFinanciera institucion = institucionRepository.save(InstitucionFinanciera.crear(request.routingCode(), request.name(), request.accountPrefix(), request.banquito()));
         auditoriaService.registrar(actorUuid, "CREATE_FINANCIAL_INSTITUTION", "INSTITUCION_FINANCIERA", institucion.getRoutingCode(), ResultadoAuditoriaAdminEnum.OK, null);
         return mapper.toFinancialInstitutionResponse(institucion);
     }
@@ -221,7 +221,7 @@ public class AdminService {
     @Transactional
     public FinancialInstitutionResponse actualizarInstitucion(String routingCode, FinancialInstitutionRequest request, String actorUuid) {
         InstitucionFinanciera institucion = findInstitucion(routingCode);
-        institucion.actualizar(request.name(), request.banquito(), request.status() == null ? institucion.getEstado() : enumValue(EstadoInstitucionFinancieraEnum.class, request.status(), "ADMIN_INSTITUTION_STATUS_INVALID"));
+        institucion.actualizar(request.name(), request.accountPrefix(), request.banquito(), request.status() == null ? institucion.getEstado() : enumValue(EstadoInstitucionFinancieraEnum.class, request.status(), "ADMIN_INSTITUTION_STATUS_INVALID"));
         auditoriaService.registrar(actorUuid, "UPDATE_FINANCIAL_INSTITUTION", "INSTITUCION_FINANCIERA", routingCode, ResultadoAuditoriaAdminEnum.OK, null);
         return mapper.toFinancialInstitutionResponse(institucionRepository.save(institucion));
     }

@@ -22,7 +22,7 @@ public class AdminMapper {
         return new OperationalWindowResponse(v.getCodigo(), v.getNombre(), v.getDominioOperativo().name(), v.getHoraInicio(), v.getHoraCorte(), v.getHoraFin(), v.getDiasAplica(), v.getTimezone(), v.getAccionDespuesCorte().name(), v.getEstado().name());
     }
     public FinancialInstitutionResponse toFinancialInstitutionResponse(InstitucionFinanciera i) {
-        return new FinancialInstitutionResponse(i.getRoutingCode(), i.getNombre(), i.getEsBanquito(), i.getEstado().name());
+        return new FinancialInstitutionResponse(i.getRoutingCode(), i.getNombre(), i.getPrefijoCuenta(), i.getEsBanquito(), i.getEstado().name());
     }
     public AccountSubtypeResponse toAccountSubtypeResponse(SubtipoCuenta s) {
         return new AccountSubtypeResponse(

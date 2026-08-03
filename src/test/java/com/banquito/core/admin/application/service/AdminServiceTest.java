@@ -646,7 +646,7 @@ class AdminServiceTest {
     void testListarInstituciones_SinStatus_RetornaTodas() {
         InstitucionFinanciera institucion = InstitucionFinanciera.crear("123456789", "Banco Test", true);
         when(institucionRepository.findAll()).thenReturn(List.of(institucion));
-        when(mapper.toFinancialInstitutionResponse(any(InstitucionFinanciera.class))).thenReturn(new FinancialInstitutionResponse("123456789", "Banco Test", true, "ACTIVA"));
+        when(mapper.toFinancialInstitutionResponse(any(InstitucionFinanciera.class))).thenReturn(new FinancialInstitutionResponse("123456789", "Banco Test", "10101", true, "ACTIVA"));
 
         List<FinancialInstitutionResponse> result = adminService.listarInstituciones(null);
 
@@ -659,7 +659,7 @@ class AdminServiceTest {
     void testListarInstituciones_ConStatus_RetornaFiltradas() {
         InstitucionFinanciera institucion = InstitucionFinanciera.crear("123456789", "Banco Test", true);
         when(institucionRepository.findByEstadoOrderByNombreAsc(EstadoInstitucionFinancieraEnum.ACTIVA)).thenReturn(List.of(institucion));
-        when(mapper.toFinancialInstitutionResponse(any(InstitucionFinanciera.class))).thenReturn(new FinancialInstitutionResponse("123456789", "Banco Test", true, "ACTIVA"));
+        when(mapper.toFinancialInstitutionResponse(any(InstitucionFinanciera.class))).thenReturn(new FinancialInstitutionResponse("123456789", "Banco Test", "10101", true, "ACTIVA"));
 
         List<FinancialInstitutionResponse> result = adminService.listarInstituciones("ACTIVA");
 
@@ -672,7 +672,7 @@ class AdminServiceTest {
     void testObtenerInstitucion_CodigoValido_RetornaInstitucion() {
         InstitucionFinanciera institucion = InstitucionFinanciera.crear("123456789", "Banco Test", true);
         when(institucionRepository.findByRoutingCode("123456789")).thenReturn(Optional.of(institucion));
-        when(mapper.toFinancialInstitutionResponse(any(InstitucionFinanciera.class))).thenReturn(new FinancialInstitutionResponse("123456789", "Banco Test", true, "ACTIVA"));
+        when(mapper.toFinancialInstitutionResponse(any(InstitucionFinanciera.class))).thenReturn(new FinancialInstitutionResponse("123456789", "Banco Test", "10101", true, "ACTIVA"));
 
         FinancialInstitutionResponse result = adminService.obtenerInstitucion("123456789");
 
@@ -695,7 +695,7 @@ class AdminServiceTest {
     void testCrearInstitucion_CodigoDuplicado_LanzaExcepcion() {
         when(institucionRepository.existsByRoutingCode("123456789")).thenReturn(true);
 
-        FinancialInstitutionRequest request = new FinancialInstitutionRequest("123456789", "Banco Test", true, "ACTIVO");
+        FinancialInstitutionRequest request = new FinancialInstitutionRequest("123456789", "Banco Test", "10101", true, "ACTIVO");
         BusinessException exception = assertThrows(BusinessException.class, () -> 
                 adminService.crearInstitucion(request, "user-123"));
 
@@ -708,9 +708,9 @@ class AdminServiceTest {
         when(institucionRepository.existsByRoutingCode("123456789")).thenReturn(false);
         InstitucionFinanciera institucion = InstitucionFinanciera.crear("123456789", "Banco Test", true);
         when(institucionRepository.save(any(InstitucionFinanciera.class))).thenReturn(institucion);
-        when(mapper.toFinancialInstitutionResponse(any(InstitucionFinanciera.class))).thenReturn(new FinancialInstitutionResponse("123456789", "Banco Test", true, "ACTIVA"));
+        when(mapper.toFinancialInstitutionResponse(any(InstitucionFinanciera.class))).thenReturn(new FinancialInstitutionResponse("123456789", "Banco Test", "10101", true, "ACTIVA"));
 
-        FinancialInstitutionRequest request = new FinancialInstitutionRequest("123456789", "Banco Test", true, "ACTIVO");
+        FinancialInstitutionRequest request = new FinancialInstitutionRequest("123456789", "Banco Test", "10101", true, "ACTIVO");
         FinancialInstitutionResponse result = adminService.crearInstitucion(request, "user-123");
 
         assertNotNull(result);
@@ -722,7 +722,7 @@ class AdminServiceTest {
     void testActualizarInstitucion_CodigoInvalido_LanzaExcepcion() {
         when(institucionRepository.findByRoutingCode("INVALID")).thenReturn(Optional.empty());
 
-        FinancialInstitutionRequest request = new FinancialInstitutionRequest("INVALID", "Banco Test", true, "ACTIVO");
+        FinancialInstitutionRequest request = new FinancialInstitutionRequest("INVALID", "Banco Test", "10101", true, "ACTIVO");
         BusinessException exception = assertThrows(BusinessException.class, () -> 
                 adminService.actualizarInstitucion("INVALID", request, "user-123"));
 

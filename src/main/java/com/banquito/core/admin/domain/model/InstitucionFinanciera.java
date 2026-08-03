@@ -24,6 +24,9 @@ public class InstitucionFinanciera {
     @Column(name = "NOMBRE", length = 150, nullable = false)
     private String nombre;
 
+    @Column(name = "PREFIJO_CUENTA", length = 10)
+    private String prefijoCuenta;
+
     @Column(name = "ES_BANQUITO", nullable = false)
     private Boolean esBanquito;
 
@@ -45,14 +48,27 @@ public class InstitucionFinanciera {
     public InstitucionFinanciera(Integer id) { this.id = id; }
 
     public static InstitucionFinanciera crear(String routingCode, String nombre, Boolean esBanquito) {
+        return crear(routingCode, nombre, null, esBanquito);
+    }
+
+    public static InstitucionFinanciera crear(String routingCode, String nombre, String prefijoCuenta, Boolean esBanquito) {
         InstitucionFinanciera i = new InstitucionFinanciera();
         i.routingCode = routingCode;
         i.nombre = nombre;
+        i.prefijoCuenta = normalizarPrefijo(prefijoCuenta);
         i.esBanquito = esBanquito != null && esBanquito;
         i.estado = EstadoInstitucionFinancieraEnum.ACTIVA;
         return i;
     }
-    public void actualizar(String nombre, Boolean esBanquito, EstadoInstitucionFinancieraEnum estado) { this.nombre = nombre; this.esBanquito = esBanquito; this.estado = estado; }
+    public void actualizar(String nombre, String prefijoCuenta, Boolean esBanquito, EstadoInstitucionFinancieraEnum estado) {
+        this.nombre = nombre;
+        this.prefijoCuenta = normalizarPrefijo(prefijoCuenta);
+        this.esBanquito = esBanquito;
+        this.estado = estado;
+    }
+    private static String normalizarPrefijo(String prefijoCuenta) {
+        return prefijoCuenta == null || prefijoCuenta.isBlank() ? null : prefijoCuenta.trim();
+    }
     @PrePersist public void prePersist() { LocalDateTime now = LocalDateTime.now(); if (estado == null) estado = EstadoInstitucionFinancieraEnum.ACTIVA; if (esBanquito == null) esBanquito = false; if (fechaCreacion == null) fechaCreacion = now; if (fechaActualizacion == null) fechaActualizacion = now; }
     @PreUpdate public void preUpdate() { fechaActualizacion = LocalDateTime.now(); }
     @Override public boolean equals(Object o) { if (this == o) return true; if (!(o instanceof InstitucionFinanciera that)) return false; if (id == null || that.id == null) return false; return Objects.equals(id, that.id); }

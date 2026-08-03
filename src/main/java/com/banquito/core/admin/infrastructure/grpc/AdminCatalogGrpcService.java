@@ -109,6 +109,7 @@ public class AdminCatalogGrpcService extends AdminCatalogServiceGrpc.AdminCatalo
             observer.onNext(FinancialInstitutionResponse.newBuilder()
                     .setRoutingCode(nvl(r.routingCode()))
                     .setName(nvl(r.name()))
+                    .setAccountPrefix(nvl(r.accountPrefix()))
                     .setBanquito(Boolean.TRUE.equals(r.banquito()))
                     .setStatus(nvl(r.status()))
                     .build());
